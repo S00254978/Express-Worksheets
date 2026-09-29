@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc",
     "start": "node build/app.js",
-    "dev": "tsx watch src/app.ts", 
+    "dev": "tsx watch src/app.ts",
     "typecheck": "tsc --noEmit"
   },
   "keywords": [],
@@ -15,7 +15,9 @@
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
-    "express": "^5.2.1"
+    "dotenv": "^18.0.4",
+    "express": "^5.2.1",
+    "mongoose": "^9.10.3"
   },
   "devDependencies": {
     "@types/express": "^5.0.6",

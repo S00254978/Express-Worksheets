@@ -1,12 +1,24 @@
 import express, {Application, Request, Response} from "express" ; 
-
+import { env } from "./config/env"; 
+import { connectDB } from "./config/database";
+import { CarController } from "./controllers/cars";
+import { authenticateKey } from "./middleware/auth.middleware";
  
 
-const PORT = process.env.PORT || 3000; 
+const PORT = env.port; 
 
  
 
 const app: Application = express(); 
+const carController = new CarController();
+
+app.use(express.json());
+
+app.get("/cars", carController.getCars);
+app.get("/cars/:id", carController.getCarById);
+app.post("/cars", authenticateKey, carController.createCar);
+app.put("/cars/:id", authenticateKey, carController.updateCar);
+app.delete("/cars/:id", authenticateKey, carController.deleteCar);
 
  
 
@@ -40,10 +52,19 @@ app.use((req, _res, next) => {
 }); 
 
  
-app.listen(PORT, () => { 
+const startServer = async (): Promise<void> => {
+    try {
+        await connectDB();
 
-console.log("Server is running on port", PORT); 
+        app.listen(PORT, () => {
+            console.log("Server is running on port", PORT);
+        });
+    } catch (error) {
+        console.error("Unable to start server:", error);
+        process.exit(1);
+    }
+};
 
- }); 
+startServer();
 
  
