@@ -1,12 +1,18 @@
 @endpoint = http://localhost:3000/cars
+@apiKey = blahblah
+
+### Protected route without an API key
+GET {{endpoint}}
 
 ### Get all cars
 GET {{endpoint}}
+x-api-key: {{apiKey}}
 
 ### Create a car
 # @name postACar
 POST {{endpoint}}
 Content-Type: application/json
+x-api-key: {{apiKey}}
 
 {
   "make": "make2",
@@ -17,10 +23,12 @@ Content-Type: application/json
 @newCar = {{postACar.response.body._id}}
 
 GET {{endpoint}}/{{newCar}}
+x-api-key: {{apiKey}}
 
 ### Update the car created above
 PUT {{endpoint}}/{{newCar}}
 Content-Type: application/json
+x-api-key: {{apiKey}}
 
 {
   "make": "updated make",
@@ -29,6 +37,8 @@ Content-Type: application/json
 
 ### Delete the car created above
 DELETE {{endpoint}}/{{newCar}}
+x-api-key: {{apiKey}}
 
 ### Invalid ID test
 DELETE {{endpoint}}/not-a-valid-id
+x-api-key: {{apiKey}}

@@ -2,6 +2,7 @@ import express, {Application, Request, Response} from "express" ;
 import { env } from "./config/env"; 
 import { connectDB } from "./config/database";
 import { CarController } from "./controllers/cars";
+import { authenticateKey } from "./middleware/auth.middleware";
  
 
 const PORT = env.port; 
@@ -12,6 +13,8 @@ const app: Application = express();
 const carController = new CarController();
 
 app.use(express.json());
+
+app.use("/cars", authenticateKey);
 
 app.get("/cars", carController.getCars);
 app.get("/cars/:id", carController.getCarById);
