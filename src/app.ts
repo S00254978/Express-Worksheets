@@ -1,6 +1,7 @@
 import express, {Application, Request, Response} from "express" ; 
 import { env } from "./config/env"; 
 import { connectDB } from "./config/database";
+import { CarController } from "./controllers/cars";
  
 
 const PORT = env.port; 
@@ -8,6 +9,15 @@ const PORT = env.port;
  
 
 const app: Application = express(); 
+const carController = new CarController();
+
+app.use(express.json());
+
+app.get("/cars", carController.getCars);
+app.get("/cars/:id", carController.getCarById);
+app.post("/cars", carController.createCar);
+app.put("/cars/:id", carController.updateCar);
+app.delete("/cars/:id", carController.deleteCar);
 
  
 
