@@ -14,13 +14,11 @@ const carController = new CarController();
 
 app.use(express.json());
 
-app.use("/cars", authenticateKey);
-
 app.get("/cars", carController.getCars);
 app.get("/cars/:id", carController.getCarById);
-app.post("/cars", carController.createCar);
-app.put("/cars/:id", carController.updateCar);
-app.delete("/cars/:id", carController.deleteCar);
+app.post("/cars", authenticateKey, carController.createCar);
+app.put("/cars/:id", authenticateKey, carController.updateCar);
+app.delete("/cars/:id", authenticateKey, carController.deleteCar);
 
  
 

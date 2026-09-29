@@ -10,7 +10,7 @@ export const authenticateKey = async (
   if (!apiKey) {
     res.status(401).json({
       status: "fail",
-      message: "Unauthorized: Missing api-key header",
+      message: "Unauthorized: Missing x-api-key header",
     });
     return;
   }

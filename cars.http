@@ -4,12 +4,12 @@
 ### Protected route without an API key
 GET {{endpoint}}
 
- Get all cars
+### Get all cars with an API key
 GET {{endpoint}}
 x-api-key: {{apiKey}}
 
 
-#@name postACar
+### @name postACar
 POST {{endpoint}}
 Content-Type: application/json
 x-api-key: {{apiKey}}
@@ -22,16 +22,19 @@ x-api-key: {{apiKey}}
 
 @newCar = {{postACar.response.body._id}}
 
+### Get the new car
 GET {{endpoint}}/{{newCar}}
 x-api-key: {{apiKey}}
 
 
+### Update the new car
 PUT {{endpoint}}/{{newCar}}
 Content-Type: application/json
 x-api-key: {{apiKey}}
 
 {
   "make": "updated make",
+### Delete the new car
   "model": "updated model"
 }
 
