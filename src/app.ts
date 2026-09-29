@@ -1,5 +1,6 @@
 import express, {Application, Request, Response} from "express" ; 
 import { env } from "./config/env"; 
+import { connectDB } from "./config/database";
  
 
 const PORT = env.port; 
@@ -40,10 +41,19 @@ app.use((req, _res, next) => {
 }); 
 
  
-app.listen(PORT, () => { 
+const startServer = async (): Promise<void> => {
+    try {
+        await connectDB();
 
-console.log("Server is running on port", PORT); 
+        app.listen(PORT, () => {
+            console.log("Server is running on port", PORT);
+        });
+    } catch (error) {
+        console.error("Unable to start server:", error);
+        process.exit(1);
+    }
+};
 
- }); 
+startServer();
 
  
