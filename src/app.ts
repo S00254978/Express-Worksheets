@@ -1,8 +1,8 @@
 import express, {Application, Request, Response} from "express" ; 
-
+import { env } from "./config/env"; 
  
 
-const PORT = process.env.PORT || 3000; 
+const PORT = env.port; 
 
  
 
