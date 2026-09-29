@@ -15,32 +15,26 @@ Content-Type: application/json
 x-api-key: {{apiKey}}
 
 {
-  "make": "make2",
-  "model": "model2"
+  "make": "make4",
+  "model": "model3"
 }
 
-
-@newCar = {{postACar.response.body._id}}
-
 ### Get the new car
-GET {{endpoint}}/{{newCar}}
-x-api-key: {{apiKey}}
-
+GET {{endpoint}}/{{postACar.response.body._id}}
 
 ### Update the new car
-PUT {{endpoint}}/{{newCar}}
+PUT {{endpoint}}/{{postACar.response.body._id}}
 Content-Type: application/json
 x-api-key: {{apiKey}}
 
 {
   "make": "updated make",
-### Delete the new car
   "model": "updated model"
 }
 
-DELETE {{endpoint}}/{{newCar}}
+### Delete the new car
+DELETE {{endpoint}}/{{postACar.response.body._id}}
 x-api-key: {{apiKey}}
-
 ### Invalid ID test
 DELETE {{endpoint}}/not-a-valid-id
 x-api-key: {{apiKey}}
