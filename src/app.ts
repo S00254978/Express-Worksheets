@@ -3,6 +3,7 @@ import { env } from "./config/env";
 import { connectDB } from "./config/database";
 import { CarController } from "./controllers/cars";
 import { authenticateKey } from "./middleware/auth.middleware";
+import { logRequests } from "./middleware/logging.middleware";
  
 
 const PORT = env.port; 
@@ -13,12 +14,13 @@ const app: Application = express();
 const carController = new CarController();
 
 app.use(express.json());
+app.use(logRequests);
 
-app.get("/cars", carController.getCars);
-app.get("/cars/:id", carController.getCarById);
-app.post("/cars", authenticateKey, carController.createCar);
-app.put("/cars/:id", authenticateKey, carController.updateCar);
-app.delete("/cars/:id", authenticateKey, carController.deleteCar);
+app.get("/api/v1/cars", carController.getCars);
+app.get("/api/v1/cars/:id", carController.getCarById);
+app.post("/api/v1/cars", authenticateKey, carController.createCar);
+app.put("/api/v1/cars/:id", authenticateKey, carController.updateCar);
+app.delete("/api/v1/cars/:id", authenticateKey, carController.deleteCar);
 
  
 
@@ -43,15 +45,6 @@ app.get("/where", async (_req : Request, res: Response) => {
     message: "How did we get here?",
     });
 });
-app.use((req, _res, next) => { 
-
- console.log(`${req.method} ${req.originalUrl}`); 
-
-  next(); 
-
-}); 
-
- 
 const startServer = async (): Promise<void> => {
     try {
         await connectDB();
