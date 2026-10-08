@@ -1,13 +1,8 @@
-@endpoint = http://localhost:3000/cars
+@endpoint = http://localhost:3000/api/v1/cars
 @apiKey = blahblah
 
-### Protected route without an API key
+### Read routes are public
 GET {{endpoint}}
-
-### Get all cars with an API key
-GET {{endpoint}}
-x-api-key: {{apiKey}}
-
 
 ### @name postACar
 POST {{endpoint}}
@@ -19,11 +14,14 @@ x-api-key: {{apiKey}}
   "model": "model3"
 }
 
+###
+@newCar = {{postACar.response.body._id}}
+
 ### Get the new car
-GET {{endpoint}}/{{postACar.response.body._id}}
+GET {{endpoint}}/{{newCar}}
 
 ### Update the new car
-PUT {{endpoint}}/{{postACar.response.body._id}}
+PUT {{endpoint}}/{{newCar}}
 Content-Type: application/json
 x-api-key: {{apiKey}}
 
@@ -33,8 +31,13 @@ x-api-key: {{apiKey}}
 }
 
 ### Delete the new car
-DELETE {{endpoint}}/{{postACar.response.body._id}}
+DELETE {{endpoint}}/{{newCar}}
 x-api-key: {{apiKey}}
+
 ### Invalid ID test
 DELETE {{endpoint}}/not-a-valid-id
+x-api-key: {{apiKey}}
+
+### Valid ID that does not exist
+DELETE {{endpoint}}/000000000000000000000000
 x-api-key: {{apiKey}}

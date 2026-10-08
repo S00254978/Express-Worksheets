@@ -17,6 +17,11 @@ export class CarController {
   getCarById = async (req: Request, res: Response): Promise<void> => {
     try {
       const id = Array.isArray(req.params.id) ? req.params.id[0] : req.params.id;
+      if (!isValidObjectId(id)) {
+        res.status(400).json({ message: "Invalid car id" });
+        return;
+      }
+
       const car = await carService.getCarById(id);
       if (!car) {
         res.status(404).json({ message: "Car not found" });
@@ -40,6 +45,11 @@ export class CarController {
   updateCar = async (req: Request, res: Response): Promise<void> => {
     try {
       const id = Array.isArray(req.params.id) ? req.params.id[0] : req.params.id;
+      if (!isValidObjectId(id)) {
+        res.status(400).json({ message: "Invalid car id" });
+        return;
+      }
+
       const updatedCar = await carService.updateCar(id, req.body);
       if (!updatedCar) {
         res.status(404).json({ message: "Car not found" });
