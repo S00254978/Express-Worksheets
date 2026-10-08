@@ -16,7 +16,7 @@ x-api-key: {{apiKey}}
 
 ###
 @newCar = {{postACar.response.body._id}}
-
+ 
 ### Get the new car
 GET {{endpoint}}/{{newCar}}
 
