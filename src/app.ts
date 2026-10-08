@@ -15,6 +15,12 @@ const carSchema = z.object({
     year: z.number().int()
 });
  
+const updateCarSchema = z.object({
+  make: z.string(),
+  model: z.string(),
+  year: z.number().int(),
+}).partial();
+
 
 const app: Application = express(); 
 const carController = new CarController();
@@ -25,7 +31,7 @@ app.use(logRequests);
 app.get("/api/v1/cars", carController.getCars);
 app.get("/api/v1/cars/:id", carController.getCarById);
 app.post("/api/v1/cars", authenticateKey, validate(carSchema), carController.createCar);
-app.put("/api/v1/cars/:id", authenticateKey, validate(carSchema), carController.updateCar);
+app.put("/api/v1/cars/:id", authenticateKey, validate(updateCarSchema), carController.updateCar);
 app.delete("/api/v1/cars/:id", authenticateKey, carController.deleteCar);
 
  
@@ -64,6 +70,12 @@ const startServer = async (): Promise<void> => {
     }
 };
 
+app.put(
+  "/api/v1/cars/:id",
+  authenticateKey,
+  validate(updateCarSchema),
+  carController.updateCar
+);
 startServer();
 
  
