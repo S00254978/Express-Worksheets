@@ -4,10 +4,16 @@ import { connectDB } from "./config/database";
 import { CarController } from "./controllers/cars";
 import { authenticateKey } from "./middleware/auth.middleware";
 import { logRequests } from "./middleware/logging.middleware";
+import { validate } from "./middleware/validate.middleware";
+import { z } from "zod";
  
 
 const PORT = env.port; 
-
+const carSchema = z.object({
+    make: z.string(),
+    model: z.string(),
+    year: z.number().int()
+});
  
 
 const app: Application = express(); 
@@ -18,8 +24,8 @@ app.use(logRequests);
 
 app.get("/api/v1/cars", carController.getCars);
 app.get("/api/v1/cars/:id", carController.getCarById);
-app.post("/api/v1/cars", authenticateKey, carController.createCar);
-app.put("/api/v1/cars/:id", authenticateKey, carController.updateCar);
+app.post("/api/v1/cars", authenticateKey, validate(carSchema), carController.createCar);
+app.put("/api/v1/cars/:id", authenticateKey, validate(carSchema), carController.updateCar);
 app.delete("/api/v1/cars/:id", authenticateKey, carController.deleteCar);
 
  
