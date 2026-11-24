@@ -1,6 +1,8 @@
 import express, {Application, Request, Response} from "express" ; 
 import { env } from "./config/env"; 
 import { connectDB } from "./config/database";
+import swaggerUi from "swagger-ui-express";
+import { swaggerSpec } from "./config/swagger";
 import { CarController } from "./controllers/cars";
 import { authenticateKey } from "./middleware/auth.middleware";
 import { logRequests } from "./middleware/logging.middleware";
@@ -15,6 +17,7 @@ const carController = new CarController();
 
 app.use(express.json());
 app.use(logRequests);
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 app.get("/api/v1/cars", carController.getCars);
 app.get("/api/v1/cars/:id", carController.getCarById);
