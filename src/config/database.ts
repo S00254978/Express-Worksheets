@@ -9,3 +9,7 @@ export const connectDB = async (): Promise<void> => {
   const connection = await mongoose.connect(env.mongoURI);
   console.log(`MongoDB connected: ${connection.connection.host}`);
 };
+
+export const disconnectDB = async (): Promise<void> => {
+  await mongoose.disconnect();
+};
