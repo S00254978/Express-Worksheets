@@ -1,0 +1,39 @@
+@endpoint = http://localhost:3000/api/v1
+@email = auth-manual@example.com
+@password = worksheet-password
+
+POST {{endpoint}}/auth/register HTTP/1.1
+content-type: application/json
+
+{
+  "name": "Manual Test",
+  "email": "{{email}}",
+  "password": "{{password}}"
+}
+
+###
+
+# @name login
+POST {{endpoint}}/auth/login HTTP/1.1
+content-type: application/json
+
+{
+  "email": "{{email}}",
+  "password": "{{password}}"
+}
+
+###
+
+@accessToken = {{login.response.body.token}}
+
+GET {{endpoint}}/auth/me HTTP/1.1
+Authorization: Bearer {{accessToken}}
+
+###
+
+GET {{endpoint}}/auth/me HTTP/1.1
+
+###
+
+DELETE {{endpoint}}/cars/66f1428fd79bf0c5ae9988 HTTP/1.1
+Authorization: Bearer {{accessToken}}

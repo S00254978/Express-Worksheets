@@ -7,7 +7,8 @@ export const validate = (schema: z.ZodObject<any>)  =>(
     next: NextFunction
 ) : void => {
 
-    const validation = schema.safeParse(req.body);
+    const bodySchema = schema.shape.body ?? schema;
+    const validation = bodySchema.safeParse(req.body);
     
     if (!validation.success) {
         res.status(400).json({
